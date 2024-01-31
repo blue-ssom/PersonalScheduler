@@ -1,43 +1,51 @@
+/* 전체 body 스타일 */
 body {
     display: flex;
-    justify-content: center; /* 가로로 배치, 가운데 정렬 */
-    align-items: center; /* 세로로 배치, 가운데 정렬 */
+    justify-content: center;
+    align-items: center;
     height: 100vh;
     margin: 0;
     background-color: #f0f0f0;
 }
 
+/* 폼 스타일 */
 form {
     width: 300px;
-    padding: 60px 30px ;
+    padding: 60px 30px;
     background-color: #ffffff;
     border-radius: 50px;
-    /* <offsetX> | <offsetY> | <blur-radius> | <spread-radius> | <color> */
     box-shadow: 3px 5px 5px 3px rgb(196, 195, 195);
 }
 
+/* 제목 스타일 */
 h2 {
     color: #3498db;
     text-align: center;
-    padding-bottom:20px;
+    padding-bottom: 20px;
 }
 
-.input-group {
+/* 입력란과 버튼을 감싸는 div의 스타일 */
+.input_container {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     width: 100%;
+    margin-bottom: 8px; /* 각 input-group 사이의 간격 조절 */
+    gap: 8px;
 }
 
-.input-group input {
+/* 입력란 스타일 */
+.input_container input {
     flex: 1;
     padding: 10px;
-    margin-right: 5px;
     box-sizing: border-box;
     border: 1px solid #ccccccf1;
     border-radius: 4px;
 }
 
-.input-group button {
+/* 버튼 스타일 */
+.input_container button {
+    width:25%;
     padding: 10px;
     border: none;
     border-radius: 4px;
@@ -46,17 +54,18 @@ h2 {
     color: #ffffff;
 }
 
-input {
+/* 나머지 입력칸 */
+.custom-input {
     width: 100%;
     padding: 10px;
     margin-bottom: 8px;
-    /* 내용의 크기에 패딩과 테두리를 포함 */
     box-sizing: border-box;
     border: 1px solid #ccccccf1;
     border-radius: 4px;
 }
 
-button {
+/* 제출 버튼 스타일 */
+form button[type="submit"] {
     width: 100%;
     background-color: #3498db;
     color: #ffffff;
@@ -64,5 +73,4 @@ button {
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-top: 20px;
 }

@@ -1,0 +1,96 @@
+body {
+    display: flex;
+    justify-content: center; /* 가로로 배치, 가운데 정렬 */
+    align-items: center; /* 세로로 배치, 가운데 정렬 */
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+form {
+    width: 500px;
+    padding: 60px;
+    background-color: #ffffff;
+    border-radius: 50px;
+    /* <offsetX> | <offsetY> | <blur-radius> | <spread-radius> | <color> */
+    box-shadow: 3px 5px 5px 3px rgb(196, 195, 195);
+}
+
+.button_container {
+    width: fit-content;
+    margin-left: auto;
+}
+
+button {
+    cursor: pointer;
+    background-color: white;
+    border: none;
+}
+
+img {
+    width: 26px;
+    height: 26px;
+    
+    margin-right: 6px;
+    margin-left: 6px;
+}
+
+.year_container {
+    display: flex;
+    
+    height: 50px;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+p {
+    /* font-size:16px default 값 */
+    font-size: 30px;
+
+    /* 200 400 600만 가능 */
+    font-weight: 600;
+
+    margin: 0; /* p 요소의 기본 마진 제거 */
+}
+
+.month_container {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+    margin-bottom: 20px;
+    /* background-color: aqua; */
+}
+
+.month_container button {
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.month_container button.selected {
+    background-color: #3498db;  
+}
+
+.day_container {
+    /* background-color: aqua; */
+    display: flex;
+    justify-content: space-between;
+
+    
+}
+
+.day_texts {
+    font-size: 14px;
+}
+
+.date_container button.selected {
+    background-color: #3498db;  
+}
+
+/* 일요일 글자색 변경 */
+.date_container button.sunday {
+    color: red;
+}
