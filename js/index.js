@@ -1,29 +1,23 @@
-// 입력이 공백
-// 길이 제한
-// 제약조건
-function hasWhiteSpace(str) {
-    // 정규식을 사용하여 문자열에 공백이 있는지 확인
-    return /\s/.test(str);
-}
-
 function validateForm() {
-    // 아이디와 비밀번호 입력값 가져오기
-    var idInput = document.getElementById('id_value').value;
-    var pwInput = document.getElementById('pw_value').value;
-    console.log("id_value: ", idInput);
-    console.log("pw_value: ", pwInput);
+    // 아이디 입력값 가져오기
+    var idValue = document.getElementById("id_value").value;
+    console.log("id_value: ", idValue);
 
-    // 입력 값이 공백이 아니고 길이 제한을 초과하지 않는지 검증
-    if (hasWhiteSpace(idInput) || idInput.length > 12) {
-        alert('아이디를 다시 확인해주세요.');
+    // 아이디의 길이가 최소 8자 이상, 최대 12자이고, 영어와 숫자를 포함하는지 확인
+    if (!idValue.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,12}$/)) {
+        alert("아이디는 최소 1자 이상, 최대 12자까지이며, 영어와 숫자를 포함해야 합니다.");
         return false;
     }
 
-    if (hasWhiteSpace(pwInput) || pwInput.length > 16) {
-        alert('비밀번호를 다시 확인해주세요.');
+    // 비밀번호 입력값 가져오기
+    var pwValue = document.getElementById('pw_value').value;
+    console.log("pw_value: ", pwValue);
+    // 비밀번호의 길이가 최소 8자 이상, 최대 16자이고, 영어와 숫자와 특수문자를 포함하는지 확인
+    var pwValue = document.getElementById("pw_value").value;
+    if (!pwValue.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/)) {
+        alert("비밀번호는 최소 1자 이상, 최대 16자까지이며, 영어와 숫자, 특수문자를 포함해야 합니다.");
         return false;
     }
-
     // 유효성 검사를 통과하면 true 반환하여 폼 제출 허용
     return true;
 }

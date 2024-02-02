@@ -12,14 +12,45 @@
 <%-- Table에서 가져온 값을 처리하는 라이브러리 --%>
 <%@ page import="java.sql.ResultSet" %>
 
-<%-- 여태까지 이거 써야 세션 쓸 수 있는 줄 알았음..  --%>
-<%@ page import="javax.servlet.http.HttpSession" %>
-
 <%
     // JSP 영역
     request.setCharacterEncoding("UTF-8"); // 이전 페이지에서 온 값에 대한 인코딩 설정
     String idValue = request.getParameter("id_value");
     String pwValue = request.getParameter("pw_value");
+
+    // 아이디를 입력하지 않았을 때
+    if (idValue.equals("")) {
+%>
+        <script>
+            alert('아이디를 입력해 주세요.');
+            window.location.href = '../page/index.jsp';  // 실패 시에 다시 index.jsp로 이동하도록 설정
+        </script>
+<%
+    } else if (!idValue.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,12}$")) {
+        // 아이디가 제약 조건을 만족하지 않을 때
+%>
+        <script>
+            alert('아이디는 최소 8글자에서 최대 12글자까지이며, 최소 한 자리 이상의 영어와 숫자를 포함해야 합니다.');
+            window.location.href = '../page/index.jsp'; // 오류 시에 다시 index.jsp로 이동하도록 설정
+        </script>
+<%
+    } else if (pwValue.equals("")) {
+        // 비밀번호를 입력하지 않았을 때
+%>
+        <script>
+            alert('비밀번호를 입력해 주세요.');
+            window.location.href = '../page/index.jsp';  // 실패 시에 다시 index.jsp로 이동하도록 설정
+        </script>
+<%
+    } else if (!pwValue.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,16}$")) {
+        // 비밀번호가 제약조건을 만족하지 않을 때
+%>
+        <script>
+            alert('비밀번호는 최소 8글자에서 최대 16글자까지이며, 최소 한 자리 이상의 영어, 숫자, 특수문자를 포함해야 합니다.');
+            window.location.href = '../page/index.jsp'; // 오류 시에 다시 index.jsp로 이동하도록 설정
+        </script>
+<%
+    }
 
     // 예외가 발생할 가능성이 있는 코드
     // 예외 발생 시 예외 객체가 생성되고, 해당 예외 객체가 catch 블록으로 전달됨
@@ -28,7 +59,7 @@
         Class.forName("com.mysql.jdbc.Driver"); // Connector 파일 찾아오는 명령어
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/scheduler", "stageus", "1234");
 
-         // sql 준비 및 전송
+        // sql 준비 및 전송
         // 입력된 아이디와 비밀번호를 가진 사용자 조회
         String sql = "SELECT * FROM user WHERE id=? AND password=?";
         PreparedStatement query = conn.prepareStatement(sql);
