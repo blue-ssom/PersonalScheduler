@@ -22,7 +22,7 @@
 
         <div class="month_container" id="monthContainer"></div>
 
-            <div class="day_container">
+            <%-- <div class="day_container">
                 <p class="day_texts">일</p>
                 <p class="day_texts">월</p>
                 <p class="day_texts">화</p>
@@ -32,7 +32,7 @@
                 <p class="day_texts">토</p>
             </div>
 
-            <div class="date_container" id="dateContainer"></div>
+            <div class="date_container" id="dateContainer"></div> --%>
 
 
     </form>

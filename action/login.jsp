@@ -12,8 +12,8 @@
 <%-- Table에서 가져온 값을 처리하는 라이브러리 --%>
 <%@ page import="java.sql.ResultSet" %>
 
-<%-- List 라이브러리 --%>
-<%@ page import="java.util.ArrayList" %>
+<%-- 여태까지 이거 써야 세션 쓸 수 있는 줄 알았음..  --%>
+<%@ page import="javax.servlet.http.HttpSession" %>
 
 <%
     // JSP 영역
@@ -21,36 +21,46 @@
     String idValue = request.getParameter("id_value");
     String pwValue = request.getParameter("pw_value");
 
-    // DB 연결 코드
-    Class.forName("com.mysql.jdbc.Driver"); // Connector 파일 찾아오는 명령어
-    Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/web","stageus","1234");
+    // 예외가 발생할 가능성이 있는 코드
+    // 예외 발생 시 예외 객체가 생성되고, 해당 예외 객체가 catch 블록으로 전달됨
+    try {
+        // DB 연결
+        Class.forName("com.mysql.jdbc.Driver"); // Connector 파일 찾아오는 명령어
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/scheduler", "stageus", "1234");
 
-    // sql 준비 및 전송
-    String sql = "SELECT * FROM account WHERE id=? AND pw=?";
-    PreparedStatement query = conn.prepareStatement(sql); // SQL을 전송 대기 상태로 만든 것
-    query.setString(1,idValue);
-    query.setString(2,pwValue);
+         // sql 준비 및 전송
+        // 입력된 아이디와 비밀번호를 가진 사용자 조회
+        String sql = "SELECT * FROM user WHERE id=? AND password=?";
+        PreparedStatement query = conn.prepareStatement(sql);
+        query.setString(1, idValue); // 첫 번째 Column 읽어오기
+        query.setString(2, pwValue); // 두 번째 Column 읽어오기
 
-    // sql 결과 받아오기
-    ResultSet result = query.executeQuery();
+        // sql 결과 받아오기
+        ResultSet result = query.executeQuery();
 
-    // 후처리 (ResultSet을 JSP 내에서 모든 읽은 다음에, 2차원 리스트로 만들어 줄 것)
-    // reulst.next() 명령어가 cursor를 한 줄 움직이는 명령어
-    ArrayList<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
-
-    while(result.next()){
-        String id = result.getString(1); // 첫 번째 Column 읽어오기
-        String pw = result.getString(2); // 두 번째 Column 읽어오기
-        
-        // 1차원 리스트를 만들고, id와 pw를 넣어주는 것
-        ArrayList<String> elem= new ArrayList<String>();
-        elem.add("\"" + id + "\"");
-        elem.add("\"" + pw + "\"");
-
-        // 만든 1차원 리스트를, 2차원 리스트에 넣어주는 것
-        data.add(elem);
+        // 로그인 성공 여부 확인
+        // ResultSet에 결과 집합에서 다음 행으로 이동하고, 이동한 행이 존재하면 true를 반환
+        if (result.next()) {
+            // 세션에 사용자 정보 저장
+            HttpSession userSession = request.getSession();
+            userSession.setAttribute("id", idValue); // "id"는 세션에 저장될 속성의 이름, idValue는 그에 해당하는 값
+%>
+            <script>
+                 window.location.href = '../page/main.jsp'; // 로그인 성공 시에 main.jsp로 이동
+            </script>
+<%
+        } else {
+            // 로그인 실패 시에 필요한 처리
+%>
+            <script>
+                alert('아이디 또는 비밀번호를 잘못 입력했습니다. 입력하신 내용을 다시 확인해주세요.');
+                window.location.href = '../page/index.jsp';  // 실패 시에 다시 index.jsp로 이동하도록 설정
+            </script>
+<%
+        }
+    } catch (Exception e) {
+%>
+        window.location.href = '../page/index.jsp';  // 실패 시에 다시 index.jsp로 이동하도록 설정
+<%
     }
-
-    // var tmpList=[] // js에서의 list
-    // ArrayList<String> tmpList = new ArrayList<String>() // java에서의 list
 %>
