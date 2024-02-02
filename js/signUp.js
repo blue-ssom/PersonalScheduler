@@ -37,10 +37,22 @@ function checkDuplicateEvent() {
 
 // 비밀번호 보이기/숨기기
 function togglePasswordVisibilityEvent() {
+    // 비밀번호 입력 필드 엘리먼트 가져오기
+    var passwordInput = document.getElementById('pw_value');
+    console.log("pw_value: ", passwordInput.value);
+    
     // 비밀번호 입력값 가져오기
     var pwValue = document.getElementById('pw_value').value;
 
-    // 현재 input 타입이 password이면 text로, text이면 password로 변경
-    pwValue.type = (pwValue.type === 'password') ? 'text' : 'password';
+    // 비밀번호의 길이가 최소 8자 이상, 최대 16자이고, 영어와 숫자와 특수문자를 포함하는지 확인
+    if (!pwValue.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/)) {
+        alert("비밀번호는 최소 1자 이상, 최대 16자까지이며, 영어와 숫자, 특수문자를 포함해야 합니다.");
+    } else {
+            // 현재 input 타입이 password이면 text로, text이면 password로 변경
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+        } else {
+            passwordInput.type = "password";
+        }
+    }
 }
-
