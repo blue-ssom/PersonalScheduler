@@ -17,7 +17,6 @@
     request.setCharacterEncoding("UTF-8"); // 이전 페이지에서 온 값에 대한 인코딩 설정
     String idValue = request.getParameter("id_value");
     String pwValue = request.getParameter("pw_value");
-
     // 아이디를 입력하지 않았을 때
     if (idValue.equals("")) {
 %>
@@ -51,7 +50,6 @@
         </script>
 <%
     }
-
     // 예외가 발생할 가능성이 있는 코드
     // 예외 발생 시 예외 객체가 생성되고, 해당 예외 객체가 catch 블록으로 전달됨
     try {
@@ -65,10 +63,8 @@
         PreparedStatement query = conn.prepareStatement(sql);
         query.setString(1, idValue); // 첫 번째 Column 읽어오기
         query.setString(2, pwValue); // 두 번째 Column 읽어오기
-
         // sql 결과 받아오기
         ResultSet result = query.executeQuery();
-
         // 로그인 성공 여부 확인
         // ResultSet에 결과 집합에서 다음 행으로 이동하고, 이동한 행이 존재하면 true를 반환
         if (result.next()) {
