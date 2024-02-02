@@ -11,6 +11,7 @@
 
 <%-- Table에서 가져온 값을 처리하는 라이브러리 --%>
 <%@ page import="java.sql.ResultSet" %>
+
 <%
     // JSP 영역
     request.setCharacterEncoding("UTF-8"); // 이전 페이지에서 온 값에 대한 인코딩 설정
@@ -49,7 +50,7 @@
         // sql 결과 받아오기
         ResultSet result = query.executeQuery();
         
-        // 아이디가 존재할 때
+        // 아이디가 존재하지 않을 때
         // ResultSet에 결과 집합에서 다음 행으로 이동하고, 이동한 행이 존재하면 true를 반환
         if (result.next()) {
 %>
@@ -60,7 +61,7 @@
             </script>
 <%
         } else {
-            // 아이디가 존재하지 않을 때
+            // 아이디가 존재할 때
 %>
             <script>
                 alert('사용 가능한 아이디입니다.');

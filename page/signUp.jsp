@@ -21,7 +21,7 @@
         </div>
 
         <input type="text" name="name_value" id="name" class="custom-input" placeholder="이름을 입력하세요" maxlength='10'>
-        <input type="text" name="phonenumber_value" id="phonenumber" class="custom-input" placeholder="전화번호를 입력하세요">
+        <input type="text" name="phonenumber_value" id="phonenumber" class="custom-input" placeholder="전화번호를 입력하세요" maxlength='13' oninput="formatPhoneNumber(this)">
 
         <button type="submit">회원가입</button>
     </form>
