@@ -74,23 +74,25 @@ p {
     background-color: #3498db;  
 }
 
-.day_container {
-    /* background-color: aqua; */
-    display: flex;
-    justify-content: space-between;
-
-    
+.date_container{
+    margin-top: 20px; /* 일자 버튼과 위의 간격 조절 */
 }
 
-.day_texts {
-    font-size: 14px;
+.date_container button {
+    width: 60px;
+    height: 60px;
+    margin: 5px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+
 }
 
-.date_container button.selected {
-    background-color: #3498db;  
+#dateContainer button.day {
+    background-color: #d1d1d1; /* 선택된 날짜의 배경색 */
 }
-
-/* 일요일 글자색 변경 */
-.date_container button.sunday {
-    color: red;
+#dateContainer button.selected {
+    background-color: #3498db; 
 }
