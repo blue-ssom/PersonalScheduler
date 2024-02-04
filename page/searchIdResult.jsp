@@ -27,7 +27,7 @@
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/scheduler", "stageus", "1234");
 
         // sql 준비 및 전송
-        // 입력된 정보를 가진 사용자 비밀번호  조회
+        // 입력된 정보를 가진 사용자 아이디 조회
         String sql = "SELECT id FROM user WHERE name=? AND phoneNumber=?";
         PreparedStatement query = conn.prepareStatement(sql);
         query.setString(1, name);
@@ -69,7 +69,6 @@
             <span><%= foundId %></span> 
             입니다.
         </div>
-
         <button type="button" onclick="returnToHomeEvent()">홈</button>
     </form>
 </body>
@@ -78,6 +77,5 @@
         // 홈 버튼 누르면
         window.location.href = "index.jsp";
         }
-
     </script>
 </html>

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="../css/search.css">
 </head>
 <body>
-    <form action="../jsp/searchPw.jsp" method="post">
+    <form action="../page/searchPwResult.jsp" method="post">
         <h2>비밀번호 찾기</h2>
             <input type="text" name="id_value" placeholder="아이디를 입력하세요" required>
             <input type="text" name="name_value" placeholder="이름을 입력하세요" required>
