@@ -51,6 +51,8 @@ p {
     font-weight: 600;
 
     margin: 0; /* p 요소의 기본 마진 제거 */
+
+    text-align: center;
 }
 
 .month_container {
@@ -99,7 +101,7 @@ p {
 }
 
 /* 모달 창 스타일링 */
-.modal_container {
+.modal{
     display: none;
     position: fixed;
     top: 0;
@@ -109,7 +111,9 @@ p {
     background-color: rgba(0, 0, 0, 0.5);
   }
   
-  .modal-content {
+  .modal_container {
+    display: flex;
+    flex-direction: column;
     margin: 15% auto;
     width: 600px;
     padding: 60px;

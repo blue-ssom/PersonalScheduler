@@ -82,7 +82,7 @@ function updateDays() {
 
         // 각 일자 버튼에 클릭 이벤트 핸들러 추가
         dayButton.addEventListener('click', function () {
-            openModal(i); // 해당 날짜를 전달하여 모달 열기
+            openModal(selectedYear, selectedMonth,i); // 해당 날짜를 전달하여 모달 열기
         });
 
         dateContainer.appendChild(dayButton);
@@ -133,26 +133,105 @@ function showNextYearEvent() {
     updateDays();
 }
 
+// JavaScript로 select 태그에 시간 옵션 추가
+const timeSelect = document.getElementById('time_select');
+
+for (let hour = 0; hour < 24; hour++) {
+    for (let minute = 0; minute < 60; minute += 15) {
+        const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        const option = document.createElement('option');
+        option.value = time;
+        option.textContent = time;
+        timeSelect.appendChild(option);
+    }
+}
+
 // 일자 클릭 시 모달 창 띄우기
-function openModal(day) {
-    const modal = document.getElementById('modal_container');
-    const modalContent = document.getElementById('modalContent');
+function openModal(year,month,day) {
+    const modal = document.getElementById('modal');
+    const modalContent = document.getElementById('modalDate');
     modal.style.display = 'block';
-    modalContent.textContent = `선택한 일자: ${day}일`;
+    modalContent.textContent = `${year}.${month}.${day}`;
+    clearPostInput(); // 모달이 열릴 때 입력 창 초기화
   }
+
+function savePostEvent() {
+    const postContainer = document.getElementById('post_container');
+    const postTextElement = document.getElementById('post_value');
+    const postSelectElement = document.getElementById('time_select'); // 수정된 부분
+
+    const postText = postTextElement.value;
+    const postTime = postSelectElement.options[postSelectElement.selectedIndex].value;
+    console.log('Saved Post Content:', postText);
+    console.log('Saved Post Time:', postTime);
+
+    const postDiv = document.createElement('div');
+    postDiv.classList.add('post_container');
+
+    const postContent = document.createElement('p');
+    postContent.id = 'post_value';
+    postContent.textContent = postText;
+
+    const postTimeContent = document.createElement('p');
+    postTimeContent.id = 'time_select';
+    postTimeContent.textContent = postTime;
+
+    const editButton = document.createElement('button');
+        editButton.type = 'button';
+        editButton.textContent = '수정';
+        editButton.addEventListener('click', function () {
+        editPostEvent(postDiv);
+    });
+
+    const deleteButton = document.createElement('button'); // 삭제 버튼 생성
+    deleteButton.type = 'button';
+    deleteButton.textContent = '삭제';
+    deleteButton.addEventListener('click', function () {
+        deletePostEvent(postDiv);
+    });
+    
+    postDiv.appendChild(postTimeContent);
+    postDiv.appendChild(postContent);
+    postDiv.appendChild(editButton);
+    postDiv.appendChild(deleteButton); 
+
+    postContainer.appendChild(postDiv);
+
+    // 입력 칸 초기화
+    postTextElement.value = '';
+    postSelectElement.selectedIndex = 0; // select 태그 초기화
+}
+
+// 삭제 버튼 클릭 시 해당 게시물 삭제
+function deletePostEvent(postDiv) {
+    const postContainer = document.getElementById('post_container');
+    postContainer.removeChild(postDiv);
+}
+
+// 입력 창 초기화
+function clearPostInput() {
+    const postTextElement = document.getElementById('post_value');
+    const postTimeElement = document.getElementById('time_select');
+
+    // 해당 요소들이 존재하는지 확인
+    if (postTextElement && postTimeElement) {
+        postTextElement.value = '';
+        postTimeElement.value = '';
+    }
+}
   
-  // 모달 창 닫기
-  function closeModalEvent() {
-    const modal = document.getElementById('modal_container');
+// 모달 창 닫기
+function closeModalEvent() {
+    const modal = document.getElementById('modal');
     modal.style.display = 'none';
-  }
+}
   
-  // 모달 창 외부 클릭 시 닫기
-  window.onclick = function(event) {
-    const modal = document.getElementById('modal_container');
+// 모달 창 외부 클릭 시 닫기
+window.onclick = function(event) {
+    const modal = document.getElementById('modal');
     if (event.target === modal) {
       modal.style.display = 'none';
     }
-  };
+};
 
 initializeCalendar();
