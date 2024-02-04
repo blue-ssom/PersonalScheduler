@@ -66,3 +66,12 @@ button {
     cursor: pointer;
     margin-top: 20px;
 }
+
+.result_container{
+    text-align: center;
+}
+
+span {
+    color:#3498db;
+    font-weight: bold;
+}
