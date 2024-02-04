@@ -23,7 +23,15 @@
         <div class="month_container" id="monthContainer"></div>
         <div class="date_container" id="dateContainer"></div>
     </form>
-    
+
+    <!-- 모달 창 -->
+    <div id="modal_container" class="modal_container">
+        <div class="modal-content">
+            <button type="button" onclick=" closeModalEvent()"><img src="../img/close.png"></button>
+            <p id="modalContent">모달 내용이 여기에 들어갑니다.</p>
+        </div>
+    </div>
+
     <script src="../js/main2.js"></script>
 </body>
 </html>

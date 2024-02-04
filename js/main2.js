@@ -80,6 +80,11 @@ function updateDays() {
             console.log("selectedDate", selectedDate);
         });
 
+        // 각 일자 버튼에 클릭 이벤트 핸들러 추가
+        dayButton.addEventListener('click', function () {
+            openModal(i); // 해당 날짜를 전달하여 모달 열기
+        });
+
         dateContainer.appendChild(dayButton);
 
         // 초기값으로 현재 날짜에 해당하는 버튼에 선택 효과 추가
@@ -127,5 +132,27 @@ function showNextYearEvent() {
     // 연도가 변경되었을 때 일자 업데이트
     updateDays();
 }
+
+// 일자 클릭 시 모달 창 띄우기
+function openModal(day) {
+    const modal = document.getElementById('modal_container');
+    const modalContent = document.getElementById('modalContent');
+    modal.style.display = 'block';
+    modalContent.textContent = `선택한 일자: ${day}일`;
+  }
+  
+  // 모달 창 닫기
+  function closeModalEvent() {
+    const modal = document.getElementById('modal_container');
+    modal.style.display = 'none';
+  }
+  
+  // 모달 창 외부 클릭 시 닫기
+  window.onclick = function(event) {
+    const modal = document.getElementById('modal_container');
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  };
 
 initializeCalendar();

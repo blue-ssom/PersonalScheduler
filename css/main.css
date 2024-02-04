@@ -90,9 +90,35 @@ p {
 
 }
 
-#dateContainer button.day {
+.date_container button.day {
     background-color: #d1d1d1; /* 선택된 날짜의 배경색 */
 }
-#dateContainer button.selected {
+
+.date_container button.selected {
     background-color: #3498db; 
 }
+
+/* 모달 창 스타일링 */
+.modal_container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .modal-content {
+    margin: 15% auto;
+    width: 600px;
+    padding: 60px;
+    background-color: #ffffff;
+    border-radius: 50px;
+    /* <offsetX> | <offsetY> | <blur-radius> | <spread-radius> | <color> */
+    box-shadow: 2px 4px 4px 4px rgb(66, 66, 66);
+  }
+
+  .modal_container button {
+    float: right;
+  }
