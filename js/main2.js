@@ -240,3 +240,8 @@ function viewProfileEvent() {
     // 내 정보 보기 버튼 누르면
     window.location.href = "../page/viewProfile.jsp";
 }
+
+function LogoutEvent() {
+    // 로그아웃 버튼 누르면
+    window.location.href = "../action/logout.jsp";
+}
