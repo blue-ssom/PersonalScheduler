@@ -78,7 +78,7 @@
         <div class="info_container">전화번호 <%= phoneNumber %></div>
 
         <div class="button_container">
-            <form action="../page/updateProfile.jsp" method="post">
+            <form action="../page/modifyProfile.jsp" method="post">
                 <button class="update" type="submit">수정하기</button>
             </form>
 
