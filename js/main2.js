@@ -133,73 +133,172 @@ function showNextYearEvent() {
     updateDays();
 }
 
-// JavaScript로 select 태그에 시간 옵션 추가
-const timeSelect = document.getElementById('time_select');
-
-for (let hour = 0; hour < 24; hour++) {
-    for (let minute = 0; minute < 60; minute += 15) {
-        const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-        const option = document.createElement('option');
-        option.value = time;
-        option.textContent = time;
-        timeSelect.appendChild(option);
-    }
-}
+let formattedMonth = '';
+let formattedDay = '';
+let clickedDate = '';
 
 // 일자 클릭 시 모달 창 띄우기
 function openModal(year,month,day) {
     const modal = document.getElementById('modal');
     const modalContent = document.getElementById('modalDate');
+
+    // 클릭한 날짜 정보를 서버로 전달할 때 형식 변환
+    formattedMonth = (month < 10) ? `0${month}` : month;
+    formattedDay = (day < 10) ? `0${day}` : day;
+    clickedDate = `${year}-${formattedMonth}-${formattedDay}`;
+    console.log('formattedMonth:', formattedMonth);
+    console.log('formattedDay:', formattedDay);
+    console.log('clickedDate:', clickedDate);
+
+
+    // 모달 열기
     modal.style.display = 'block';
+    // 모달 내용 설정
     modalContent.textContent = `${year}.${month}.${day}`;
+
     clearPostInput(); // 모달이 열릴 때 입력 창 초기화
   }
 
+
 function savePostEvent() {
     const postContainer = document.getElementById('post_container');
-    const postTextElement = document.getElementById('post_value');
-    const postSelectElement = document.getElementById('time_select'); // 수정된 부분
+    const postTextElement = document.getElementById('post_input');
+    const postTimeElement = document.getElementById('time_input');
 
     const postText = postTextElement.value;
-    const postTime = postSelectElement.options[postSelectElement.selectedIndex].value;
-    console.log('Saved Post Content:', postText);
-    console.log('Saved Post Time:', postTime);
+    const postTime = postTimeElement.value;
+    console.log('저장한 내용:', postText);
+    console.log('저장한 시간:', postTime);
+    console.log('클릭한 날짜:', clickedDate);
+
+    // 클릭한 날짜 정보를 쿼리 문자열로 변환
+    const queryString = `?post_text=${encodeURIComponent(postText)}&post_time=${encodeURIComponent(postTime)}&clicked_date=${encodeURIComponent(clickedDate)}`;
+
+    // 새로운 페이지로 이동
+    window.location.href = `../action/savePost2.jsp${queryString}`;
+
+    // 입력 칸 초기화
+    postTextElement.value = '';
+    postTimeElement.value = '00:00'; // 초기값으로 00:00 설정
+}
+
+function createPostElement(postText, postTime) {
+    const postContainer = document.getElementById('post_container');
 
     const postDiv = document.createElement('div');
     postDiv.classList.add('post_container');
 
     const postContent = document.createElement('p');
-    postContent.id = 'post_value';
+    postContent.classList.add('post_input');
     postContent.textContent = postText;
 
     const postTimeContent = document.createElement('p');
-    postTimeContent.id = 'time_select';
-    postTimeContent.textContent = postTime;
+    postTimeContent.classList.add('time_input');
+    postTimeContent.textContent = postTime; 
+
+    const buttonContainer = document.createElement('div');
+    buttonContainer.classList.add('button_container');
 
     const editButton = document.createElement('button');
-        editButton.type = 'button';
-        editButton.textContent = '수정';
-        editButton.addEventListener('click', function () {
+    editButton.type = 'button';
+    editButton.textContent = '수정'; 
+    editButton.addEventListener('click', function () {
         editPostEvent(postDiv);
     });
 
-    const deleteButton = document.createElement('button'); // 삭제 버튼 생성
+    const deleteButton = document.createElement('button');
     deleteButton.type = 'button';
     deleteButton.textContent = '삭제';
     deleteButton.addEventListener('click', function () {
         deletePostEvent(postDiv);
     });
-    
+
+    buttonContainer.appendChild(editButton);
+    buttonContainer.appendChild(deleteButton);
+
     postDiv.appendChild(postTimeContent);
     postDiv.appendChild(postContent);
-    postDiv.appendChild(editButton);
-    postDiv.appendChild(deleteButton); 
+    postDiv.appendChild(buttonContainer);
 
     postContainer.appendChild(postDiv);
+}
 
-    // 입력 칸 초기화
-    postTextElement.value = '';
-    postSelectElement.selectedIndex = 0; // select 태그 초기화
+
+// 게시물 수정
+function editPostEvent(postDiv) {
+    // 게시글 내용과 시간을 input으로 교체
+    const postContent = postDiv.querySelector('.post_input');
+    const postTime = postDiv.querySelector('.time_input');
+
+    console.log('수정하려는 내용:', postContent.textContent);
+    console.log('수정하려는 시간:', postTime.textContent);
+
+    const postTextElement = document.createElement('input');
+    postTextElement.type = 'text';
+    postTextElement.classList.add('post_input');
+    postTextElement.value = postContent.textContent;
+
+    const postSelectElement = document.createElement('input');
+    postSelectElement.type = 'text';
+    postSelectElement.classList.add('time_input');
+    postSelectElement.value = postTime.textContent;
+
+    const saveButton = document.createElement('button');
+    saveButton.type = 'button';
+    saveButton.textContent = '저장';
+    saveButton.addEventListener('click', function () {
+        updatePostEvent(postDiv);
+    });
+
+    const deleteButton = document.createElement('button');
+    deleteButton.type = 'button';
+    deleteButton.textContent = '삭제';
+    deleteButton.addEventListener('click', function () {
+        deletePostEvent(postDiv);
+    });
+
+    // 기존 내용 삭제하고 input으로 교체
+    postContent.replaceWith(postTextElement);
+    postTime.replaceWith(postSelectElement);
+
+    // 수정 모드로 변경된 게시글 스타일 적용
+    postDiv.classList.add('edit_mode');
+
+    // 저장 및 삭제 버튼 추가 전에 기존 버튼 숨기기
+    const existingButtons = postDiv.querySelectorAll('button');
+    existingButtons.forEach(button => {
+        button.style.display = 'none';
+    });
+
+    // 저장 및 삭제 버튼 추가
+    postDiv.appendChild(saveButton);
+    postDiv.appendChild(deleteButton);
+}
+
+// 수정된 내용을 저장하는 함수
+function updatePostEvent(postDiv) {
+    // 게시글 내용과 시간을 input으로 교체
+    const postContent = postDiv.querySelector('.post_input');
+    const postTime = postDiv.querySelector('.time_input');
+    console.log('수정된 내용:', postContent.value);
+    console.log('수정된 시간:', postTime.value);
+
+    const postTextElement = document.createElement('input');
+    postTextElement.type = 'text';
+    postTextElement.classList.add('post_input');
+    postTextElement.value = postContent.value;
+
+    const postSelectElement = document.createElement('input');
+    postSelectElement.type = 'text';
+    postSelectElement.classList.add('time_input');
+    postSelectElement.value = postTime.value;
+
+    // 기존 내용 삭제하고 input으로 교체
+    postContent.replaceWith(postTextElement);
+    postTime.replaceWith(postSelectElement);
+
+    // 수정 모드로 변경된 게시글 스타일 적용
+    postDiv.classList.add('edit_mode');
 }
 
 // 삭제 버튼 클릭 시 해당 게시물 삭제
@@ -210,8 +309,8 @@ function deletePostEvent(postDiv) {
 
 // 입력 창 초기화
 function clearPostInput() {
-    const postTextElement = document.getElementById('post_value');
-    const postTimeElement = document.getElementById('time_select');
+    const postTextElement = document.getElementById('post_input');
+    const postTimeElement = document.getElementById('time_input');
 
     // 해당 요소들이 존재하는지 확인
     if (postTextElement && postTimeElement) {

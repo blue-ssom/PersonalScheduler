@@ -35,12 +35,14 @@
     <!-- 모달 창 -->
     <div id="modal" class="modal">
         <div class="modal_container">
-            <button type="button" onclick=" closeModalEvent()"><img src="../img/close.png"></button>
-            <p id="modalDate">모달 내용이 여기에 들어갑니다.</p>
+            <button type="button" class="close_button" onclick=" closeModalEvent()"><img src="../img/close.png"></button>
+            <p id="modalDate">모달</p>
+                
             <div id="post_container"></div>
-            <div>
-                <select id="time_select" placeholder="00:00"></select>
-                <input type="text" id="post_value" placeholder="게시글을 입력하세요">
+            
+            <div class="post_input_container">
+                <input type="text" id="time_input" placeholder="00:00">
+                <input type="text" id="post_input" placeholder="게시글을 입력하세요">
                 <button type="button" onclick="savePostEvent()">저장</button>
             </div>
         </div>
