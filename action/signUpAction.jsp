@@ -12,10 +12,9 @@
 <%-- Table에서 가져온 값을 처리하는 라이브러리 --%>
 <%@ page import="java.sql.ResultSet" %>
 
+<%-- java에서 정규 표현식을 사용하기 위한 Pattern 클래스를 import --%>
 <%@ page import="java.util.regex.Pattern" %>
 
-<%-- 아이디 UNIQUE로 해놓아서 중복 확인 다시 --%>
-<%-- 핸드폰번호 UNIQUE로 해놓아서 중복 확인 다시 --%>
 <%
     request.setCharacterEncoding("UTF-8"); // 이전 페이지에서 온 값에 대한 인코딩 설정
 
@@ -24,7 +23,16 @@
     String nameValue = request.getParameter("name_value");
     String phonenumberValue = request.getParameter("phonenumber_value");
 
-    if (!Pattern.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,12}$", idValue)) {
+    if (idValue.isEmpty()) {
+        // 아이디 입력 확인
+%>
+        <script>
+            alert("이름을 입력해주세요.");
+            window.location.href = '../page/signUp.jsp'; // 오류 시에 다시 signUp.jsp로 이동하도록 설정
+        </script>
+<%
+        
+    }else if (!Pattern.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,12}$", idValue)) {
         // 아이디의 길이가 최소 8자 이상, 최대 12자이고, 영어와 숫자를 포함하는지 확인
 %>
         <script>
@@ -32,6 +40,15 @@
             window.location.href = '../page/signUp.jsp'; // 오류 시에 다시 signUp.jsp로 이동하도록 설정
         </script>
 <%
+    }else if (nameValue.isEmpty()) {
+        // 비밀번호 입력 확인
+%>
+        <script>
+            alert("비밀번호를 입력해주세요.");
+            window.location.href = '../page/signUp.jsp'; // 오류 시에 다시 signUp.jsp로 이동하도록 설정
+        </script>
+<%
+        
     }else if (!Pattern.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,16}$",pwValue)) {
         // 비밀번호의 길이가 최소 8자 이상, 최대 16자이고, 영어와 숫자와 특수문자를 포함하는지 확인
 %>
@@ -40,17 +57,28 @@
             window.location.href = '../page/signUp.jsp'; // 오류 시에 다시 signUp.jsp로 이동하도록 설정
         </script>
 <%   
-    }else if (nameValue.isEmpty() || nameValue.length() < 2 || nameValue.length() > 10) {
+    }if (nameValue.isEmpty()) {
+        // 이름 입력 확인
+%>
+        <script>
+            alert("이름을 입력해주세요.");
+            window.location.href = '../page/signUp.jsp'; // 오류 시에 다시 signUp.jsp로 이동하도록 설정
+
+
+        </script>
+<%
+        
+    }else if (!Pattern.matches("^[가-힣]{2,4}$", nameValue)) {
         // 이름의 길이가 최소 2자 이상, 최대 10자인지 확인
 %>
         <script>
-            alert("이름은 최소 2자 이상, 최대 10자까지이며, 한글로 입력되어야 합니다.");
+            alert("이름은 최소 2자 이상, 최대 12자까지 입력 가능합니다.");
             window.location.href = '../page/signUp.jsp'; // 오류 시에 다시 signUp.jsp로 이동하도록 설정
         </script>
 <%
         
     }else if (phonenumberValue.isEmpty()) {
-        // 전화번호 길이가 11인지 확인
+        // 전화번호 입력 확인
 %>
         <script>
             alert('전화번호를 입력해 주세요.');
