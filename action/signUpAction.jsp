@@ -27,7 +27,7 @@
         // 아이디 입력 확인
 %>
         <script>
-            alert("이름을 입력해주세요.");
+            alert("아이디를 입력해주세요.");
             window.location.href = '../page/signUp.jsp'; // 오류 시에 다시 signUp.jsp로 이동하도록 설정
         </script>
 <%

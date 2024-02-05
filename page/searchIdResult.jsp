@@ -32,7 +32,7 @@
         </script>
 <%
         
-    }else if ( !Pattern.matches("^[가-힣]{2,4}$", nameValue)) {
+    }else if (!Pattern.matches("^[가-힣]{2,4}$", nameValue)) {
         // 이름의 길이가 최소 2자 이상, 최대 10자인지 확인
 %>
         <script>
