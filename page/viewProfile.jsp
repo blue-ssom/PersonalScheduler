@@ -1,4 +1,66 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%-- 데이터베이스 탐색 라이브러리 --%>
+<%@ page import="java.sql.DriverManager" %>
+
+<%-- 데이터베이스 연결 라이브러리 --%>
+<%@ page import="java.sql.Connection" %>
+
+<%-- 데이터베이스 SQL 전송 라이브러리 --%>
+<%@ page import="java.sql.PreparedStatement" %>
+
+<%-- Table에서 가져온 값을 처리하는 라이브러리 --%>
+<%@ page import="java.sql.ResultSet" %>
+
+<%
+    // JSP 영역
+    request.setCharacterEncoding("UTF-8");
+    HttpSession userSession = request.getSession(false);
+    String idValue = (String) userSession.getAttribute("id");
+    if (idValue == null) {
+        // 세션이 없으면 로그인 페이지로 리디렉션
+        response.sendRedirect("../page/index.jsp");
+    }
+%>
+    <script>
+        console.log("idValue: <%= idValue %>");
+    </script>
+<%
+
+    String userId="";
+    String password="";
+    String name="";
+    String phoneNumber="";
+
+    try {
+        // DB 연결
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/scheduler", "stageus", "1234");
+
+        // 세션으로 사용자 아이디 조회
+        String sql = "SELECT * FROM user WHERE id=?";
+        PreparedStatement query = conn.prepareStatement(sql);
+        query.setString(1, idValue);
+
+        // sql 결과 받아오기
+        ResultSet result = query.executeQuery();
+
+        // 조회된 정보 출력
+        if (result.next()) {
+            userId = result.getString("id");
+            password = result.getString("password");
+            name = result.getString("name");
+            phoneNumber = result.getString("phoneNumber");
+        } 
+    } catch (Exception e) {
+%>
+    <script>
+        window.location.href = '../page/main.jsp'; 
+    </script>
+<%
+    }
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,19 +70,19 @@
     <link rel="stylesheet" href="../css/profile.css">
 </head>
 <body>
-    <div class="form-container">
+    <div class="form_container">
         <h2>내 정보 보기</h2>
-        <div class="info-box">아이디</div>
-        <div class="info-box">비밀번호</div>
-        <div class="info-box">이름</div>
-        <div class="info-box">전화번호</div>
+        <div class="info_container">아이디 <%= userId %></div>
+        <div class="info_container">비밀번호 <%= password %></div>
+        <div class="info_container">이름 <%= name %></div>
+        <div class="info_container">전화번호 <%= phoneNumber %></div>
 
-        <div class="button-container">
-            <form action="../jsp/updateProfile.jsp" method="post">
+        <div class="button_container">
+            <form action="../page/updateProfile.jsp" method="post">
                 <button class="update" type="submit">수정하기</button>
             </form>
 
-            <form action="../jsp/withdraw.jsp" method="post">
+            <form action="../page/withdraw.jsp" method="post">
                 <button class="delete" type="submit">탈퇴하기</button>
             </form>
         </div>

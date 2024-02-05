@@ -1,4 +1,12 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" %>
+<%
+    HttpSession userSession = request.getSession(false);
+        String idValue = (String) userSession.getAttribute("id");
+        if (idValue == null) {
+            // 세션이 없으면 로그인 페이지로 리디렉션
+            response.sendRedirect("../page/index.jsp");
+        }
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>

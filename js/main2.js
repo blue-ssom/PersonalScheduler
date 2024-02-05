@@ -235,3 +235,8 @@ window.onclick = function(event) {
 };
 
 initializeCalendar();
+
+function viewProfileEvent() {
+    // 내 정보 보기 버튼 누르면
+    window.location.href = "../page/viewProfile.jsp";
+}
