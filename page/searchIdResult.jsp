@@ -16,49 +16,28 @@
 <%@ page import="java.util.regex.Pattern" %>
 
 <%
-    request.setCharacterEncoding("UTF-8");// 이전 페이지에서 온 값에 대한 인코딩 설정
+    request.setCharacterEncoding("UTF-8"); // 이전 페이지에서 온 값에 대한 인코딩 설정
 
     // 전달된 이름과 핸드폰 번호 파라미터 가져오기
     String nameValue = request.getParameter("name_value");
     String phonenumberValue = request.getParameter("phone_number_value");
 
     if (nameValue.isEmpty()) {
-        // 이름의 길이가 최소 2자 이상, 최대 10자인지 확인
-%>
-        <script>
-            alert("이름을 입력해주세요.");
-            window.location.href = '../page/searchId.jsp';  // 실패 시에 다시 searchId.jsp로 이동하도록 설정
-
-        </script>
-<%
-        
+        // 이름 입력 확인
+        out.println("<script>alert('이름을 입력해주세요.');</script>");
+        response.sendRedirect("searchId.jsp");    // 실패 시에 다시 searchId.jsp로 이동하도록 설정 
     }else if (!Pattern.matches("^[가-힣]{2,4}$", nameValue)) {
         // 이름의 길이가 최소 2자 이상, 최대 10자인지 확인
-%>
-        <script>
-            alert("이름은 최소 2자 이상, 최대 12자까지 입력 가능합니다.");
-            window.location.href = '../page/searchId.jsp';  // 실패 시에 다시 searchId.jsp로 이동하도록 설정
-
-        </script>
-<%
-        
+        out.println("<script>alert('이름은 최소 2자 이상, 최대 12자까지 입력 가능합니다.');</script>");
+        response.sendRedirect("searchId.jsp");    // 실패 시에 다시 searchId.jsp로 이동하도록 설정    
     }else if (phonenumberValue.isEmpty()) {
         // 전화번호 길이가 11인지 확인
-%>
-        <script>
-            alert('전화번호를 입력해 주세요.');
-            window.location.href = '../page/searchId.jsp';  // 실패 시에 다시 searchId.jsp로 이동하도록 설정
-
-        </script>
-<%
+        out.println("<script>alert('전화번호를 입력해 주세요.');</script>");
+        response.sendRedirect("searchId.jsp");    // 실패 시에 다시  searchId.jsp로 이동하도록 설정    
     }else if (!Pattern.matches("^010-([0-9]{3,4})-([0-9]{4})$",phonenumberValue)) {
         // 전화번호가 숫자로만 이루어져 있는지 확인
-%>
-        <script>
-            alert('유효하지 않은 전화번호 형식입니다.');
-            window.location.href = '../page/searchId.jsp';  // 실패 시에 다시 searchId.jsp로 이동하도록 설정
-        </script>
-<%
+        out.println("<script>alert('유효하지 않은 전화번호 형식입니다.');</script>");
+        response.sendRedirect("searchId.jsp");    // 실패 시에 다시 searchId.jsp로 이동하도록 설정    
     }
 
     String foundId = ""; // foundId 변수 초기화
@@ -79,23 +58,16 @@
         ResultSet result = query.executeQuery();
 
         // 조회된 아이디를 클라이언트에게 전송
-        if (result.next()) {
-            foundId = result.getString("id");
-        } else {
-%>
-            <script>
-                alert('해당 정보가 없습니다.');
-                window.location.href = '../page/searchId.jsp';  // 실패 시에 다시 searchId.jsp로 이동하도록 설정
-            </script>
-<%
+        if (! result.next()) {
+            out.println("<script>alert('해당 정보가 없습니다.');</script>");
+            response.sendRedirect("searchId.jsp");    // 실패 시에 다시 searchId로 이동하도록 설정
         }
-
+            
+        foundId = result.getString("id");
+    
     } catch (Exception e) {
-%>
-            <script>
-                window.location.href = '../page/searchId.jsp';  // 실패 시에 다시 searchId.jsp로 이동하도록 설정
-            </script>
-<%
+        out.println("<script>alert('" + e.getMessage() + "');</script>");
+        response.sendRedirect("searchId.jsp");    // 실패 시에 다시 searchId로 이동하도록 설정
     }
 %>
 
@@ -111,9 +83,7 @@
     <form>
         <h2>아이디 확인</h2>
         <div class="result_container">
-            아이디는 
-            <span><%= foundId %></span> 
-            입니다.
+            아이디는 <span><%= foundId %></span> 입니다.
         </div>
         <button type="button" onclick="returnToHomeEvent()">홈</button>
     </form>

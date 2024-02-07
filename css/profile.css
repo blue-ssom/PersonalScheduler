@@ -7,7 +7,23 @@ body {
     background-color: #f0f0f0;
 }
 
-.form-container {
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, td {
+    border: 1px solid #ddddddea;
+}
+
+td {
+    padding: 12px;
+    text-align: left;
+    font-size: 13px;
+}
+
+.form_container {
     width: 300px;
     padding: 60px 30px ;
     background-color: #ffffff;
@@ -49,7 +65,7 @@ button.delete {
 }
 
 /* 수정하기, 탈퇴하기 버튼을 가로로 나란히 배치 */
-.button-container {
+.button_container {
     margin-top: 20px;
     display: flex;
     justify-content: space-between;

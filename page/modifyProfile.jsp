@@ -14,9 +14,11 @@
 
 <%
     // JSP 영역
-    request.setCharacterEncoding("UTF-8");
+    request.setCharacterEncoding("UTF-8");  // 이전 페이지에서 온 값에 대한 인코딩 설정
+
     HttpSession userSession = request.getSession(false);
     String idValue = (String) userSession.getAttribute("id");
+
     if (idValue == null) {
         // 세션이 없으면 로그인 페이지로 리디렉션
         response.sendRedirect("../page/index.jsp");
@@ -55,11 +57,8 @@
             phoneNumber = result.getString("phoneNumber");
         } 
     } catch (Exception e) {
-%>
-    <script>
-        window.location.href = '../page/main.jsp'; 
-    </script>
-<%
+        out.println("<script>alert('" + e.getMessage() + "');</script>");
+        response.sendRedirect("../page/main.jsp");    // 실패 시에 다시 main.jsp로 이동하도록 설정 
     }
 %>
 <!DOCTYPE html>
@@ -73,7 +72,7 @@
 <body>
     <form action="../action/modifyProfileAction.jsp" method="post" onsubmit="return validateForm()">
         <h2>내 정보 수정하기</h2>
-        <div><%= userId %></div>
+        <div class="user_id_container"><%= userId %></div>
         <div class="input_container">
             <input type="password" name="pw_value" id="pw_value" value="<%= password %>">
             <button type="button" onclick="togglePasswordVisibilityEvent()">확인</button>

@@ -133,6 +133,8 @@ function showNextYearEvent() {
     updateDays();
 }
 
+initializeCalendar();
+
 let formattedMonth = '';
 let formattedDay = '';
 let clickedDate = '';
@@ -150,7 +152,6 @@ function openModal(year,month,day) {
     console.log('formattedDay:', formattedDay);
     console.log('clickedDate:', clickedDate);
 
-
     // 모달 열기
     modal.style.display = 'block';
     // 모달 내용 설정
@@ -158,7 +159,6 @@ function openModal(year,month,day) {
 
     clearPostInput(); // 모달이 열릴 때 입력 창 초기화
   }
-
 
 function savePostEvent() {
     const postContainer = document.getElementById('post_container');
@@ -176,6 +176,9 @@ function savePostEvent() {
 
     // 새로운 페이지로 이동
     window.location.href = `../action/savePost2.jsp${queryString}`;
+    
+    createPostElement(postText, postTime);
+
 
     // 입력 칸 초기화
     postTextElement.value = '';
@@ -320,10 +323,15 @@ function clearPostInput() {
 }
   
 // 모달 창 닫기
+// 모달 닫기
 function closeModalEvent() {
     const modal = document.getElementById('modal');
-    modal.style.display = 'none';
+    modal.parentNode.removeChild(modal); // 모달 창을 DOM에서 제거
 }
+// function closeModalEvent() {
+//     const modal = document.getElementById('modal');
+//     modal.style.display = 'none';
+// }
   
 // 모달 창 외부 클릭 시 닫기
 window.onclick = function(event) {
@@ -332,8 +340,6 @@ window.onclick = function(event) {
       modal.style.display = 'none';
     }
 };
-
-initializeCalendar();
 
 function viewProfileEvent() {
     // 내 정보 보기 버튼 누르면

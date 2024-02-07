@@ -1,11 +1,38 @@
-<%@ page language="java" contentType="text/html" pageEncoding="UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+
+<%-- 데이터베이스 탐색 라이브러리 --%>
+<%@ page import="java.sql.DriverManager" %>
+
+<%-- 데이터베이스 연결 라이브러리 --%>
+<%@ page import="java.sql.Connection" %>
+
+<%-- 데이터베이스 SQL 전송 라이브러리 --%>
+<%@ page import="java.sql.PreparedStatement" %>
+
+<%-- Table에서 가져온 값을 처리하는 라이브러리 --%>
+<%@ page import="java.sql.ResultSet" %>
+
 <%
+    // JSP 영역
+    request.setCharacterEncoding("UTF-8"); // 이전 페이지에서 온 값에 대한 인코딩 설정
     HttpSession userSession = request.getSession(false);
-        String idValue = (String) userSession.getAttribute("id");
-        if (idValue == null) {
+    String idValue = (String) userSession.getAttribute("id");
+    if (idValue == null) {
             // 세션이 없으면 로그인 페이지로 리디렉션
             response.sendRedirect("../page/index.jsp");
         }
+%>
+    <script>
+        console.log("idValue: <%= idValue %>");
+    </script>
+<%
+    // 클라이언트로부터 전달된 날짜 파라미터 받기
+    String clickedDate = request.getParameter("clicked_date");
+%>
+    <script>
+        console.log("clickedDate: <%= clickedDate %>");
+    </script>
+<%
 %>
 <!DOCTYPE html>
 <html lang="en">

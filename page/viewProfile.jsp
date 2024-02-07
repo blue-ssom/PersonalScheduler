@@ -14,9 +14,11 @@
 
 <%
     // JSP 영역
-    request.setCharacterEncoding("UTF-8");
+    request.setCharacterEncoding("UTF-8"); // 이전 페이지에서 온 값에 대한 인코딩 설정
+
     HttpSession userSession = request.getSession(false);
     String idValue = (String) userSession.getAttribute("id");
+
     if (idValue == null) {
         // 세션이 없으면 로그인 페이지로 리디렉션
         response.sendRedirect("../page/index.jsp");
@@ -45,19 +47,16 @@
         // sql 결과 받아오기
         ResultSet result = query.executeQuery();
 
-        // 조회된 정보 출력
+        // 조회된 정보르 클라이언트에게 전송
         if (result.next()) {
             userId = result.getString("id");
             password = result.getString("password");
             name = result.getString("name");
             phoneNumber = result.getString("phoneNumber");
-        } 
+        }
     } catch (Exception e) {
-%>
-    <script>
-        window.location.href = '../page/main.jsp'; 
-    </script>
-<%
+        out.println("<script>alert('" + e.getMessage() + "');</script>");
+        response.sendRedirect("../page/main.jsp");    // 실패 시에 다시 main.jsp로 이동하도록 설정 
     }
 %>
 
@@ -72,10 +71,25 @@
 <body>
     <div class="form_container">
         <h2>내 정보 보기</h2>
-        <div class="info_container">아이디 <%= userId %></div>
-        <div class="info_container">비밀번호 <%= password %></div>
-        <div class="info_container">이름 <%= name %></div>
-        <div class="info_container">전화번호 <%= phoneNumber %></div>
+        <table>
+            <tr>
+                <td>아이디</td>
+                <td><%= userId %></td>
+            </tr>
+            <tr>
+                <td>비밀번호</td>
+                <td><%= password %></td>
+            </tr>
+            <tr>
+                <td>이름</td>
+                <td><%= name %></td>
+            </tr>
+            <tr>
+                <td>전화번호</td>
+                <td><%= phoneNumber %></td>
+            </tr>
+        </table>
+
 
         <div class="button_container">
             <form action="../page/modifyProfile.jsp" method="post">
