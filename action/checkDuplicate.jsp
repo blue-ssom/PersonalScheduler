@@ -1,5 +1,4 @@
-<%-- 회원가입시 아이디 중복체크를 위한 액션 --%>
-
+<%-- MEMO :: 회원가입시 아이디 중복체크를 위한 액션 --%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
@@ -18,23 +17,20 @@
 <%
     // JSP 영역
     request.setCharacterEncoding("UTF-8"); // 이전 페이지에서 온 값에 대한 인코딩 설정
+
     String idValue = request.getParameter("id");
 
     // 아이디를 입력하지 않았을 때
     if (idValue.equals("")) {
-%>
-        <script>
-            alert('아이디를 입력해 주세요.');
-            window.location.href = '../page/signUp.jsp';  // 실패 시에 다시 signUp.jsp로 이동하도록 설정
-        </script>
-<%
+        out.println("<script>alert('아이디를 입력해주세요.');</script>");
+        response.sendRedirect("../page/signUp.jsp");    // 실패 시에 다시 signUp.jsp로 이동하도록 설정
     } else if (!idValue.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,12}$")) {   // MEMO ::
         // 아이디가 제약 조건을 만족하지 않을 때
         out.println("<script>alert('아이디는 최소 8글자에서 최대 12글자까지이며, 최소 한 자리 이상의 영어와 숫자를 포함해야 합니다.');</script>");
-        response.sendRedirect('../page/signUp.jsp');   // 오류 시에 다시 signUp.jsp로 이동하도록 설정
+        response.sendRedirect("../page/signUp.jsp");   // 오류 시에 다시 signUp.jsp로 이동하도록 설정
     } 
+
     // 예외가 발생할 가능성이 있는 코드
-    // 예외 발생 시 예외 객체가 생성되고, 해당 예외 객체가 catch 블록으로 전달됨
     try {
         // DB 연결
         Class.forName("com.mysql.jdbc.Driver"); // Connector 파일 찾아오는 명령어
@@ -49,19 +45,18 @@
         // sql 결과 받아오기
         ResultSet result = query.executeQuery();
         
-        // 아이디가 존재하지 않을 때
-        // ResultSet에 결과 집합에서 다음 행으로 이동하고, 이동한 행이 존재하면 true를 반환
+        // 중복된 아이디가 존재할 때
         if (result.next()) {
             out.println("<script>alert('사용 불가능한 아이디입니다.');</script>");
             response.sendRedirect('../page/signUp.jsp');    // 다시 signUp.jsp로 이동하도록 설정
         } 
 
-        // 아이디가 존재할 때
+        // 중복된 아이디가 존재할 때
         out.println("<script>alert('사용 가능한 아이디입니다.');</script>");
         response.sendRedirect('../page/signUp.jsp');   // 다시 signUp.jsp로 이동하도록 설정
 
     } catch (Exception e) {
-        out.println("<script>alert(" + e.message + ");</script>");
-        response.sendRedirect('../page/signUp.jsp');   // 다시 signUp.jsp로 이동하도록 설정
+        out.println("<script>alert('" + e.getMessage() + "');</script>");
+        response.sendRedirect("../page/signUp.jsp");   // 다시 signUp.jsp로 이동하도록 설정
     }
 %>

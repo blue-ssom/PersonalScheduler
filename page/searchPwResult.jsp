@@ -16,7 +16,7 @@
 <%@ page import="java.util.regex.Pattern" %>
 
 <%
-    request.setCharacterEncoding("UTF-8");// 이전 페이지에서 온 값에 대한 인코딩 설정
+    request.setCharacterEncoding("UTF-8"); // 이전 페이지에서 온 값에 대한 인코딩 설정
 
     // 전달된 아이디, 이름과 핸드폰 번호 파라미터 가져오기
     String idValue = request.getParameter("id_value");
