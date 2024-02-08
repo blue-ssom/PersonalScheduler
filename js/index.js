@@ -24,16 +24,16 @@ function validateForm() {
 }
 
 function signUpEvent() {
-    // 회원가입 버튼 누르면
+    // 회원가입 버튼 누르면 이동
     window.location.href = "signUp.jsp";
 }
 
 function searchIdEvent() {
-    // 아이디 찾기 버튼 누르면
+    // 아이디 찾기 버튼 누르면 이동
     window.location.href = "searchId.jsp";
 }
 
 function searchPwEvent() {
-    // 비밀번호 찾기 버튼 누르면 
+    // 비밀번호 찾기 버튼 누르면 이동
     window.location.href = "searchPw.jsp";
 }

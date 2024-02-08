@@ -21,7 +21,7 @@
     String idValue = request.getParameter("id");
 
     // 아이디를 입력하지 않았을 때
-    if (idValue.equals("")) {
+    if (idValue.isEmpty()) {
         out.println("<script>alert('아이디를 입력해주세요.');</script>");
         response.sendRedirect("../page/signUp.jsp");    // 실패 시에 다시 signUp.jsp로 이동하도록 설정
     } else if (!idValue.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,12}$")) {   // MEMO ::
@@ -48,15 +48,17 @@
         // 중복된 아이디가 존재할 때
         if (result.next()) {
             out.println("<script>alert('사용 불가능한 아이디입니다.');</script>");
-            response.sendRedirect('../page/signUp.jsp');    // 다시 signUp.jsp로 이동하도록 설정
+            out.println("<script>location.href='../page/signUp.jsp';</script>");
+            //response.sendRedirect("../page/signUp.jsp");    // 다시 signUp.jsp로 이동하도록 설정
         } 
 
-        // 중복된 아이디가 존재할 때
+        // 중복된 아이디가 존재하지 않을 때
         out.println("<script>alert('사용 가능한 아이디입니다.');</script>");
-        response.sendRedirect('../page/signUp.jsp');   // 다시 signUp.jsp로 이동하도록 설정
+        out.println("<script>location.href='../page/signUp.jsp';</script>");
+        //response.sendRedirect("../page/signUp.jsp");   // 다시 signUp.jsp로 이동하도록 설정
 
     } catch (Exception e) {
         out.println("<script>alert('" + e.getMessage() + "');</script>");
-        response.sendRedirect("../page/signUp.jsp");   // 다시 signUp.jsp로 이동하도록 설정
+        //response.sendRedirect("../page/signUp.jsp");   // 다시 signUp.jsp로 이동하도록 설정
     }
 %>

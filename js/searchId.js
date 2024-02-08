@@ -1,9 +1,11 @@
 function validateForm() {
     // 이름 입력값 가져오기
-    var nameValue = document.getElementById('name').value;
+    var nameValue = document.getElementById('name_value').value;
+    console.log("nameValue",nameValue);
 
     // 전화번호 입력값 가져오기
-    var phoneNumberValue = document.getElementById('phonenumber').value;
+    var phoneNumberValue = document.getElementById('phone_number_value').value;
+    console.log("phoneNumberValue",phoneNumberValue);
 
     if (nameValue.match(/^[\uAC00-\uD7A3]{2,10}$/)) {
         // 이름의 길이가 최소 2자 이상, 최대 10자인지 확인

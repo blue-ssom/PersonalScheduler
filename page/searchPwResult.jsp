@@ -23,30 +23,30 @@
     String nameValue = request.getParameter("name_value");
     String phonenumberValue = request.getParameter("phone_number_value");
 
-    if (idValue.isEmpty()) {
+    if (idValue == null || idValue.isEmpty()) {
         // 아이디 입력 확인
         out.println("<script>alert('아이디를 입력해주세요.');</script>");
-        response.sendRedirect('../page/searchPw.jsp');    // 실패 시에 다시 searchPw로 이동하도록 설정
+        response.sendRedirect("../page/searchPw.jsp");    // 실패 시에 다시 searchPw.jsp로 이동하도록 설정
     }else if (!Pattern.matches("^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,12}$", idValue)) {
         // 아이디의 길이가 최소 8자 이상, 최대 12자이고, 영어와 숫자를 포함하는지 확인
         out.println("<script>alert('아이디는 최소 1자 이상, 최대 12자까지이며, 영어와 숫자를 포함해야 합니다.');</script>");
-        response.sendRedirect('../page/searchPw.jsp');    // 실패 시에 다시 searchPw로 이동하도록 설정
+        response.sendRedirect("../page/searchPw.jsp");    // 실패 시에 다시 searchPw.jsp로 이동하도록 설정
     }else if (nameValue.isEmpty()) {
         // 이름의 길이가 최소 2자 이상, 최대 10자인지 확인
         out.println("<script>alert('이름을 입력해주세요.');</script>");
-        response.sendRedirect('../page/searchPw.jsp');    // 실패 시에 다시 searchPw로 이동하도록 설정
+        response.sendRedirect("../page/searchPw.jsp");    // 실패 시에 다시 searchPw.jsp로 이동하도록 설정
     }else if (!Pattern.matches("^[가-힣]{2,4}$", nameValue)) {
         // 이름의 길이가 최소 2자 이상, 최대 10자인지 확인
         out.println("<script>alert('이름을 입력해주세요.');</script>");
-        response.sendRedirect('../page/searchPw.jsp');    // 실패 시에 다시 searchPw로 이동하도록 설정 
+        response.sendRedirect("../page/searchPw.jsp");    // 실패 시에 다시 searchPw.jsp로 이동하도록 설정 
     }else if (phonenumberValue.isEmpty()) {
         // 전화번호 길이가 11인지 확인
         out.println("<script>alert('전화번호를 입력해 주세요.');</script>");
-        response.sendRedirect('../page/searchPw.jsp');    // 실패 시에 다시 searchPw로 이동하도록 설정 
+        response.sendRedirect("../page/searchPw.jsp");    // 실패 시에 다시 searchPw.jsp로 이동하도록 설정 
     }else if (!Pattern.matches("^010-([0-9]{3,4})-([0-9]{4})$",phonenumberValue)) {
         // 전화번호가 숫자로만 이루어져 있는지 확인
         out.println("<script>alert('유효하지 않은 전화번호 형식입니다.');</script>");
-        response.sendRedirect('../page/searchPw.jsp');    // 실패 시에 다시 searchPw로 이동하도록 설정
+        response.sendRedirect("../page/searchPw.jsp");    // 실패 시에 다시 searchPw.jsp로 이동하도록 설정
     }
 
     String foundPw = ""; // foundPw 변수 초기화
@@ -68,16 +68,16 @@
         ResultSet result = query.executeQuery();
 
         // 조회된 비밀번호를 클라이언트에게 전송
-        if (result.next()) {
-            foundPw = result.getString("password");
-        } else {
+        if (! result.next()) {
             out.println("<script>alert('해당 정보가 없습니다.');</script>");
-            response.sendRedirect("../page/searchPw.jsp");    // 실패 시에 다시 searchPw로 이동하도록 설정
+            response.sendRedirect("../page/searchPw.jsp");    // 실패 시에 다시 searchPw.jsp로 이동하도록 설정
         }
+        
+        foundPw = result.getString("password");
 
     } catch (Exception e) {
         out.println("<script>alert('" + e.getMessage() + "');</script>");
-        response.sendRedirect("../page/searchPw.jsp");    // 실패 시에 다시 searchPw로 이동하도록 설정 
+        response.sendRedirect("../page/searchPw.jsp");    // 실패 시에 다시 searchPw.jsp로 이동하도록 설정 
     }
 %>
 

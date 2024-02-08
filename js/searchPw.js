@@ -1,9 +1,17 @@
 function validateForm() {
+    // 아이디 입력값 가져오기
+    var idValue = document.getElementById("id_value").value;
+    console.log("id_value: ", idValue);
+    
     // 이름 입력값 가져오기
-    var nameValue = document.getElementById('name').value;
+    var nameValue = document.getElementById('name_value').value;
+    console.log("name: ", nameValue);
+
 
     // 전화번호 입력값 가져오기
-    var phoneNumber = document.getElementById('phonenumber').value;
+    var phoneNumberValue = document.getElementById('phone_number_value').value;
+    console.log("phonenumber: ", phoneNumberValue);
+
 
      // 아이디의 길이가 최소 8자 이상, 최대 12자이고, 영어와 숫자를 포함하는지 확인
     if (!idValue.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,12}$/)) {
@@ -21,4 +29,10 @@ function validateForm() {
 
     // 유효성 검사를 통과하면 true 반환하여 폼 제출 허용
     return true;
+}
+
+const autoHyphen = (target) => {
+    target.value = target.value
+        .replace(/[^0-9]/g, '')
+        .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
 }

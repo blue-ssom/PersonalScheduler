@@ -22,7 +22,7 @@
     String nameValue = request.getParameter("name_value");
     String phonenumberValue = request.getParameter("phone_number_value");
 
-    if (nameValue.isEmpty()) {
+    if (nameValue == null | nameValue.isEmpty()) {
         // 이름 입력 확인
         out.println("<script>alert('이름을 입력해주세요.');</script>");
         response.sendRedirect("searchId.jsp");    // 실패 시에 다시 searchId.jsp로 이동하도록 설정 
@@ -61,13 +61,13 @@
         if (! result.next()) {
             out.println("<script>alert('해당 정보가 없습니다.');</script>");
             response.sendRedirect("searchId.jsp");    // 실패 시에 다시 searchId로 이동하도록 설정
+        }else{
+            foundId = result.getString("id");
         }
             
-        foundId = result.getString("id");
-    
     } catch (Exception e) {
         out.println("<script>alert('" + e.getMessage() + "');</script>");
-        response.sendRedirect("searchId.jsp");    // 실패 시에 다시 searchId로 이동하도록 설정
+        response.sendRedirect("../page/searchId.jsp");    // 실패 시에 다시 searchId로 이동하도록 설정
     }
 %>
 
