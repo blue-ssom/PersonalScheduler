@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" %>
 <%
     String idValue = request.getParameter("id");
+    // disabled 변수가 'true'인지 확인하여 입력 필드의 상태를 결정
+    boolean disabled = request.getParameter("disabled") != null && request.getParameter("disabled").equals("true");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,8 +16,8 @@
     <form action="../action/signUpAction.jsp" method="post" onsubmit="return validateForm()">
         <h2>회원가입</h2>
         <div class="input_container">
-            <input type="text" name="id_value" id="id_value" placeholder="아이디를 입력하세요" maxlength='12'  value="<%= (idValue != null) ? idValue : "" %>">
-            <button type="button" onclick="checkDuplicateEvent()">중복확인</button>
+            <input type="text" name="id_value" id="id_value" placeholder="아이디를 입력하세요" maxlength='12'  value="<%= (idValue != null) ? idValue : "" %>"<%= disabled ? "disabled" : "" %>>
+            <button type="button" id="checkButton" onclick="checkDuplicateEvent()"<%= disabled ? "disabled" : "" %>>중복확인</button>
         </div>
         
         <div class="input_container">

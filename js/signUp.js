@@ -43,13 +43,19 @@ function validateForm() {
 function checkDuplicateEvent() {
     // 아이디 입력값 가져오기
     var idValue = document.getElementById("id_value").value;
+    var checkButton = document.getElementById("checkButton");
+
+    // 아이디 입력 필드와 중복 확인 버튼을 활성화
+    document.getElementById("id_value").disabled = false;
+    document.getElementById("checkButton").disabled = false;
 
     if (!idValue.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,12}$/)) {
         alert("아이디는 최소 8글자에서 최대 12글자까지이며, 최소 한 자리 이상의 영어와 숫자를 포함해야 합니다.");
     } else {
         // 회원가입 버튼 누르면
         // window.location.href = "../action/checkDuplicate.jsp?id=" + encodeURIComponent(idValue);
-        window.location.href = "../action/checkDuplicate.jsp?id=" + idValue;   // MEMO ::
+        //window.location.href = "../action/checkDuplicate.jsp?id=" + idValue;   // MEMO ::
+        window.location.href = "../action/checkDuplicate.jsp?id=" + idValue + "&button=" + checkButton.id;
     }
 }
 

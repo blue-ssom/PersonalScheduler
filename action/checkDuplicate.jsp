@@ -19,6 +19,8 @@
     request.setCharacterEncoding("UTF-8"); // 이전 페이지에서 온 값에 대한 인코딩 설정
 
     String idValue = request.getParameter("id");
+    String checkButton = request.getParameter("checkButton");
+
 
     // 예외가 발생할 가능성이 있는 코드
     try {
@@ -50,7 +52,8 @@
 
         // 중복된 아이디가 존재하지 않을 때
         out.println("<script>alert('사용 가능한 아이디입니다.');</script>");
-        out.println("<script>window.location.href = '../page/signUp.jsp?id=" + idValue + "';</script>");
+        out.println("<script>window.location.href = '../page/signUp.jsp?id=" + idValue + "&disabled=true';</script>");
+        //out.println("<script>window.location.href = '../page/signUp.jsp?id=" + idValue + "';</script>");
         //response.sendRedirect("../page/signUp.jsp");   // 다시 signUp.jsp로 이동하도록 설정
 
     } catch (Exception e) {
