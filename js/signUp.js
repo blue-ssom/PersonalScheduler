@@ -45,7 +45,7 @@ function checkDuplicateEvent() {
     var idValue = document.getElementById("id_value").value;
 
     if (!idValue.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,12}$/)) {
-        alert("아이디는 최소 1자 이상, 최대 12자까지이며, 영어와 숫자를 포함해야 합니다.");
+        alert("아이디는 최소 8글자에서 최대 12글자까지이며, 최소 한 자리 이상의 영어와 숫자를 포함해야 합니다.");
     } else {
         // 회원가입 버튼 누르면
         // window.location.href = "../action/checkDuplicate.jsp?id=" + encodeURIComponent(idValue);

@@ -90,7 +90,6 @@
             </tr>
         </table>
 
-
         <div class="button_container">
             <form action="../page/modifyProfile.jsp" method="post">
                 <button class="update" type="submit">수정하기</button>

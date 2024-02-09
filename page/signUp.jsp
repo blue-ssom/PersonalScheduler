@@ -1,4 +1,7 @@
 <%@ page language="java" contentType="text/html" pageEncoding="UTF-8" %>
+<%
+    String idValue = request.getParameter("id");
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +14,7 @@
     <form action="../action/signUpAction.jsp" method="post" onsubmit="return validateForm()">
         <h2>회원가입</h2>
         <div class="input_container">
-            <input type="text" name="id_value" id="id_value" placeholder="아이디를 입력하세요" maxlength='12'>
+            <input type="text" name="id_value" id="id_value" placeholder="아이디를 입력하세요" maxlength='12'  value="<%= (idValue != null) ? idValue : "" %>">
             <button type="button" onclick="checkDuplicateEvent()">중복확인</button>
         </div>
         
