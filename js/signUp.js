@@ -16,14 +16,18 @@ function validateForm() {
     var phoneNumberValue = document.getElementById('phonenumber').value;
     console.log("phonenumber: ", phoneNumberValue);
 
+    var checkedId = document.getElementById("id_value_hidden").value 
+    console.log("checkedId: ", checkedId);
+
+
 
     if (!idValue.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,12}$/)) {
          // 아이디의 길이가 최소 8자 이상, 최대 12자이고, 영어와 숫자를 포함하는지 확인
-        alert("아이디는 최소 1자 이상, 최대 12자까지이며, 영어와 숫자를 포함해야 합니다.");
+        alert("아이디는 최소 8자 이상, 최대 12자까지이며, 영어와 숫자를 포함해야 합니다.");
         return false;
     }else if (!pwValue.match(/^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/)) {
         // 비밀번호의 길이가 최소 8자 이상, 최대 16자이고, 영어와 숫자와 특수문자를 포함하는지 확인
-        alert("비밀번호는 최소 1자 이상, 최대 16자까지이며, 영어와 숫자, 특수문자를 포함해야 합니다.");
+        alert("비밀번호는 최소 8자 이상, 최대 16자까지이며, 영어와 숫자, 특수문자를 포함해야 합니다.");
         return false;
     }else if (!nameValue.match(/^[\uAC00-\uD7A3]{2,10}$/)) {
         // 이름의 길이가 최소 2자 이상, 최대 10자인지 확인

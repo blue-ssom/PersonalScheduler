@@ -21,7 +21,6 @@
     String idValue = request.getParameter("id");
     String checkButton = request.getParameter("checkButton");
 
-
     // 예외가 발생할 가능성이 있는 코드
     try {
         // 아이디가 제약 조건을 만족하지 않을 때
