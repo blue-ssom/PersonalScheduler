@@ -61,8 +61,8 @@ function checkDuplicateEvent() {
 
 // 비밀번호 보이기/숨기기
 function togglePasswordVisibilityEvent() {   // MEMO ::
-    // 비밀번호 입력값 가져오기
-    var pwValue = document.getElementById('pw_value').value;
+    // 비밀번호 input 엘리먼트 가져오기
+    var pwValue = document.getElementById('pw_value');
 
     // 현재 input 타입이 password이면 text로, text이면 password로 변경
     if (pwValue.type === "password") {
