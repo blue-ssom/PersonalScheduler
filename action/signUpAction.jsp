@@ -91,30 +91,6 @@
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/scheduler", "stageus", "1234");
 
         // sql 준비 및 전송
-        // 세션으로 사용자 아이디 찾아오기
-        String checkIdSql = "SELECT * FROM user WHERE id=?";
-        PreparedStatement checkIdQuery = conn.prepareStatement(checkIdSql);
-        checkIdQuery.setString(1, idValue);// 첫 번째 Column 읽어오기
-        ResultSet idResult = checkIdQuery.executeQuery();
-
-        // id가 존재하는 경우
-        if (idResult.next()) {
-            out.println("<script>alert('사용 불가능한 아이디입니다.');</script>");
-            out.println("<script>location.href='../page/signUp.jsp';</script>");
-        }
-
-        String checkPhoneNumberSql = "SELECT * FROM user WHERE phoneNumber=?";
-        PreparedStatement checkPhoneNumberQuery = conn.prepareStatement(checkPhoneNumberSql);
-        checkPhoneNumberQuery.setString(1, phonenumberValue);
-        ResultSet phoneNumberResult = checkPhoneNumberQuery.executeQuery();
-
-        // 전화번호가 존재하는 경우
-        if (phoneNumberResult.next()) {
-            out.println("<script>alert('사용 불가능한 전화번호입니다.');</script>");
-            out.println("<script>location.href='../page/signUp.jsp';</script>");
-        } 
-
-        // 최종적으로 가입 가능 상태일 경우
         String insertUserSql = "INSERT INTO user(id, password, name, phoneNumber) VALUES (?, ?, ?, ?)";
         PreparedStatement insertUserQuery = conn.prepareStatement(insertUserSql);
         insertUserQuery.setString(1, checkedId);
