@@ -11,15 +11,12 @@ function validateForm() {
     var nameValue = document.getElementById('name').value;
     console.log("name: ", nameValue);
 
-
     // 전화번호 입력값 가져오기
     var phoneNumberValue = document.getElementById('phonenumber').value;
     console.log("phonenumber: ", phoneNumberValue);
 
     var checkedId = document.getElementById("id_value_hidden").value 
     console.log("checkedId: ", checkedId);
-
-
 
     if (!idValue.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,12}$/)) {
          // 아이디의 길이가 최소 8자 이상, 최대 12자이고, 영어와 숫자를 포함하는지 확인

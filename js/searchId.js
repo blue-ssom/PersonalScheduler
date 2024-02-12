@@ -7,7 +7,7 @@ function validateForm() {
     var phoneNumberValue = document.getElementById('phone_number_value').value;
     console.log("phoneNumberValue",phoneNumberValue);
 
-    if (nameValue.match(/^[\uAC00-\uD7A3]{2,10}$/)) {
+    if(!nameValue.match(/^[\uAC00-\uD7A3]{2,10}$/)) {
         // 이름의 길이가 최소 2자 이상, 최대 10자인지 확인
         alert("이름은 최소 2자 이상, 최대 10자까지이며, 한글로 입력되어야 합니다.");
         return false;
@@ -19,4 +19,10 @@ function validateForm() {
 
     // 유효성 검사를 통과하면 true 반환하여 폼 제출 허용
     return true;
+}
+
+const autoHyphen = (target) => {
+    target.value = target.value
+        .replace(/[^0-9]/g, '')
+        .replace(/^(\d{0,3})(\d{0,4})(\d{0,4})$/g, "$1-$2-$3").replace(/(\-{1,2})$/g, "");
 }

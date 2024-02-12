@@ -21,28 +21,28 @@
     // 전달된 이름과 핸드폰 번호 파라미터 가져오기
     String nameValue = request.getParameter("name_value");
     String phonenumberValue = request.getParameter("phone_number_value");
-
-    if (nameValue == null | nameValue.isEmpty()) {
-        // 이름 입력 확인
-        out.println("<script>alert('이름을 입력해주세요.');</script>");
-        response.sendRedirect("searchId.jsp");    // 실패 시에 다시 searchId.jsp로 이동하도록 설정 
-    }else if (!Pattern.matches("^[가-힣]{2,4}$", nameValue)) {
-        // 이름의 길이가 최소 2자 이상, 최대 10자인지 확인
-        out.println("<script>alert('이름은 최소 2자 이상, 최대 12자까지 입력 가능합니다.');</script>");
-        response.sendRedirect("searchId.jsp");    // 실패 시에 다시 searchId.jsp로 이동하도록 설정    
-    }else if (phonenumberValue.isEmpty()) {
-        // 전화번호 길이가 11인지 확인
-        out.println("<script>alert('전화번호를 입력해 주세요.');</script>");
-        response.sendRedirect("searchId.jsp");    // 실패 시에 다시  searchId.jsp로 이동하도록 설정    
-    }else if (!Pattern.matches("^010-([0-9]{3,4})-([0-9]{4})$",phonenumberValue)) {
-        // 전화번호가 숫자로만 이루어져 있는지 확인
-        out.println("<script>alert('유효하지 않은 전화번호 형식입니다.');</script>");
-        response.sendRedirect("searchId.jsp");    // 실패 시에 다시 searchId.jsp로 이동하도록 설정    
-    }
+     %>
+    <script>
+        console.log("signUpAction.jsp");
+        console.log("nameValue: <%= nameValue %>");
+        console.log("phonenumberValue: <%= phonenumberValue %>");
+    </script>
+<%
 
     String foundId = ""; // foundId 변수 초기화
 
     try {
+        // 예외 처리
+        if (!Pattern.matches("^[가-힣]{2,10}$", nameValue)) {
+        // 이름의 길이가 최소 2자 이상, 최대 10자인지 확인
+        out.println("<script>alert('이름은 최소 2자 이상, 최대 12자까지 입력 가능합니다.');</script>");
+        out.println("<script>location.href='../page/searchId.jsp';</script>"); // 실패 시에 다시 searchId.jsp로 이동하도록 설정  
+        }else if (!Pattern.matches("^010-([0-9]{3,4})-([0-9]{4})$", phonenumberValue)) {
+        // 전화번호가 숫자로만 이루어져 있는지 확인
+        out.println("<script>alert('유효하지 않은 전화번호 형식입니다.');</script>");
+        out.println("<script>location.href='../page/searchId.jsp';</script>"); // 실패 시에 다시 searchId.jsp로 이동하도록 설정  
+        }
+
         // DB 연결
         Class.forName("com.mysql.jdbc.Driver"); // Connector 파일 찾아오는 명령어
         Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/scheduler", "stageus", "1234");
@@ -60,14 +60,15 @@
         // 조회된 아이디를 클라이언트에게 전송
         if (! result.next()) {
             out.println("<script>alert('해당 정보가 없습니다.');</script>");
-            response.sendRedirect("searchId.jsp");    // 실패 시에 다시 searchId로 이동하도록 설정
+            out.println("<script>location.href='../page/searchId.jsp';</script>"); // 실패 시에 다시 searchId.jsp로 이동하도록 설정  
+
         }else{
             foundId = result.getString("id");
         }
             
     } catch (Exception e) {
         out.println("<script>alert('" + e.getMessage() + "');</script>");
-        response.sendRedirect("../page/searchId.jsp");    // 실패 시에 다시 searchId로 이동하도록 설정
+        out.println("<script>location.href='../page/searchId.jsp';</script>"); // 실패 시에 다시 searchId.jsp로 이동하도록 설정  
     }
 %>
 
