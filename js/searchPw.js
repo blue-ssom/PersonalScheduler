@@ -17,7 +17,7 @@ function validateForm() {
     if (!idValue.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,12}$/)) {
         alert("아이디는 최소 1자 이상, 최대 12자까지이며, 영어와 숫자를 포함해야 합니다.");
         return false;
-    }else if (!nameValue.match(/^[가-힣]{2,10}$/)) {
+    }else if (!nameValue.match(/^[\uAC00-\uD7A3]{2,10}$/)) {
         // 이름의 길이가 최소 2자 이상, 최대 10자인지 확인
         alert("이름은 최소 2자 이상, 최대 10자까지이며, 한글로 입력되어야 합니다.");
         return false;
