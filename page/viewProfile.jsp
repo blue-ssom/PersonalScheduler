@@ -21,8 +21,7 @@
 
     if (idValue == null) {
         // 세션이 없으면 로그인 페이지로 리디렉션
-        out.println("<script>location.href='../page/index.jsp';</script>"); // 실패 시에 다시 index.jsp로 이동하도록 설정  
-
+        out.println("<script>location.href='../page/index.jsp';</script>");
     }
 %>
     <script>
@@ -100,6 +99,15 @@
                 <button class="delete" type="submit">탈퇴하기</button>
             </form>
         </div>
+        
+        <button class="main" type="button" onclick="returnToMainEvent()">메인으로</button>
     </div>
+
+    <script>
+        function returnToMainEvent() {
+        // 홈 버튼 누르면
+        window.location.href = "main.jsp";
+        }
+    </script>
 </body>
 </html>

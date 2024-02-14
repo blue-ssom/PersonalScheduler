@@ -21,7 +21,7 @@
 
     if (idValue == null) {
         // 세션이 없으면 로그인 페이지로 리디렉션
-        response.sendRedirect("../page/index.jsp");
+        out.println("<script>location.href='../page/index.jsp';</script>");
     }
     
     // 세션 디버깅
@@ -58,7 +58,8 @@
         } 
     } catch (Exception e) {
         out.println("<script>alert('" + e.getMessage() + "');</script>");
-        response.sendRedirect("../page/main.jsp");    // 실패 시에 다시 main.jsp로 이동하도록 설정 
+        out.println("<script>location.href='../page/main.jsp';</script>"); // 실패 시에 다시 main.jsp로 이동하도록 설정  
+
     }
 %>
 <!DOCTYPE html>
@@ -67,22 +68,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>내 정보 수정하기</title>
-    <link rel="stylesheet" href="../css/signUp.css"/>
+    <link rel="stylesheet" href="../css/profile.css"/>
 </head>
 <body>
-    <form action="../action/modifyProfileAction.jsp" method="post" onsubmit="return validateForm()">
+    <form class="form" action="../action/modifyProfileAction.jsp" method="post" onsubmit="return validateForm()">
         <h2>내 정보 수정하기</h2>
         <div class="user_id_container"><%= userId %></div>
         <div class="input_container">
-            <input type="password" name="pw_value" id="pw_value" value="<%= password %>">
+            <input type="password" name="pw_value" id="pw_value" value="<%= password %>" maxlength='16'>
             <button type="button" onclick="togglePasswordVisibilityEvent()">확인</button>
         </div>
 
-        <input type="text" name="name_value" id="name" class="custom-input" value="<%= name %>">
-        <input type="text" name="phone_number_value" id="phonenumber" class="custom-input" value="<%= phoneNumber %>">
+        <input type="text" name="name_value" id="name" class="custom-input" value="<%= name %>"maxlength='10'>
+        <input type="text" name="phone_number_value" id="phonenumber" class="custom-input" value="<%= phoneNumber %>" oninput="autoHyphen(this)" maxlength="13">
 
-        <button type="submit">수정하기</button>
+        <button class="modify" type="submit">수정하기</button>
+        <button class="main" type="button" onclick="returnToMainEvent()">메인으로</button>
     </form>
+
     <script src="../js/modifyProfile.js"></script>
+    <script>
+        function returnToMainEvent() {
+        // 홈 버튼 누르면
+        window.location.href = "main.jsp";
+        }
+    </script>
 </body>
 </html>

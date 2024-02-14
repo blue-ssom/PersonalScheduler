@@ -37,86 +37,57 @@
     String pwValue = request.getParameter("pw_value");
     String nameValue = request.getParameter("name_value");
     String phonenumberValue = request.getParameter("phone_number_value");
-
-   if (pwValue.isEmpty()) {
-        // 비밀번호 입력 확인
-        out.println("<script>alert('아이디를 입력해주세요.');</script>");
-        response.sendRedirect('../page/modifyProfile.jsp');    // 실패 시에 다시 modifyProfile.jsp로 이동하도록 설정 
-    }else if (!Pattern.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,16}$",pwValue)) {
-        // 비밀번호의 길이가 최소 8자 이상, 최대 16자이고, 영어와 숫자와 특수문자를 포함하는지 확인
-        out.println("<script>alert('비밀번호는 최소 1자 이상, 최대 16자까지이며, 영어와 숫자, 특수문자를 포함해야 합니다.');</script>");
-        response.sendRedirect('../page/modifyProfile.jsp');    // 실패 시에 다시 modifyProfile.jsp로 이동하도록 설정 
-    }else if (nameValue.isEmpty()) {
-        // 이름 입력 확인
-        out.println("<script>alert('이름을 입력해주세요.');</script>");
-        response.sendRedirect('../page/modifyProfile.jsp');    // 실패 시에 다시 modifyProfile.jsp로 이동하도록 설정
-    }else if (!Pattern.matches("^[가-힣]{2,4}$", nameValue)) {
-        // 이름의 길이가 최소 2자 이상, 최대 10자인지 확인
-        out.println("<script>alert('이름은 최소 2자 이상, 최대 12자까지 입력 가능합니다.');</script>");
-        response.sendRedirect('../page/modifyProfile.jsp');    // 실패 시에 다시 modifyProfile.jsp로 이동하도록 설정 
-    }else if (phonenumberValue.isEmpty()) {
-        // 전화번호 입력 확인
-        out.println("<script>alert('전화번호를 입력해 주세요.');</script>");
-        response.sendRedirect('../page/modifyProfile.jsp');    // 실패 시에 다시 modifyProfile.jsp로 이동하도록 설정 
-    }else if (!Pattern.matches("^010-([0-9]{3,4})-([0-9]{4})$",phonenumberValue)) {
-        // 전화번호가 숫자로만 이루어져 있는지 확인
-        out.println("<script>alert('유효하지 않은 전화번호 형식입니다.');</script>");
-        response.sendRedirect('../page/modifyProfile.jsp');    // 실패 시에 다시 modifyProfile.jsp로 이동하도록 설정 
-    }
+%>
+    <script>
+        console.log("modifyProfileAction.jsp");
+        console.log("pwValue: <%= pwValue %>");
+        console.log("nameValue: <%= nameValue %>");
+        console.log("phonenumberValue: <%= phonenumberValue %>");
+    </script>
+<%
 
     try {
+            // 예외처리
+            if (pwValue.isEmpty()) {
+                // 비밀번호 입력 확인
+                out.println("<script>alert('아이디를 입력해주세요.');</script>");
+                out.println("<script>location.href='../page/modifyProfile.jsp';</script>"); // 실패 시에 다시 modifyProfile.jsp로 이동하도록 설정
+            }else if (!Pattern.matches("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[!@#$%^&*])[A-Za-z\\d!@#$%^&*]{8,16}$",pwValue)) {
+                // 비밀번호의 길이가 최소 8자 이상, 최대 16자이고, 영어와 숫자와 특수문자를 포함하는지 확인
+                out.println("<script>alert('비밀번호는 최소 1자 이상, 최대 16자까지이며, 영어와 숫자, 특수문자를 포함해야 합니다.');</script>");
+                out.println("<script>location.href='../page/modifyProfile.jsp';</script>"); // 실패 시에 다시 modifyProfile.jsp로 이동하도록 설정
+            }else if (nameValue.isEmpty()) {
+                // 이름 입력 확인
+                out.println("<script>alert('이름을 입력해주세요.');</script>");
+                out.println("<script>location.href='../page/modifyProfile.jsp';</script>"); // 실패 시에 다시 modifyProfile.jsp로 이동하도록 설정
+            }else if (!Pattern.matches("^[가-힣]{2,4}$", nameValue)) {
+                // 이름의 길이가 최소 2자 이상, 최대 10자인지 확인
+                out.println("<script>alert('이름은 최소 2자 이상, 최대 12자까지 입력 가능합니다.');</script>");
+                out.println("<script>location.href='../page/modifyProfile.jsp';</script>"); // 실패 시에 다시 modifyProfile.jsp로 이동하도록 설정
+            }else if (phonenumberValue.isEmpty()) {
+                // 전화번호 입력 확인
+                out.println("<script>alert('전화번호를 입력해 주세요.');</script>");
+                out.println("<script>location.href='../page/modifyProfile.jsp';</script>"); // 실패 시에 다시 modifyProfile.jsp로 이동하도록 설정
+            }else if (!Pattern.matches("^010-([0-9]{3,4})-([0-9]{4})$",phonenumberValue)) {
+                // 전화번호가 숫자로만 이루어져 있는지 확인
+                out.println("<script>alert('유효하지 않은 전화번호 형식입니다.');</script>");
+                out.println("<script>location.href='../page/modifyProfile.jsp';</script>"); // 실패 시에 다시 modifyProfile.jsp로 이동하도록 설정
+            }
             Class.forName("com.mysql.jdbc.Driver");
             Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/scheduler", "stageus", "1234");
 
-            // 기존 전화번호 가져오기
-            String getOldPhoneNumberSql = "SELECT phoneNumber FROM user WHERE id=?";
-            PreparedStatement getOldPhoneNumberQuery = conn.prepareStatement(getOldPhoneNumberSql);
-            getOldPhoneNumberQuery.setString(1, idValue);
-            ResultSet oldPhoneNumberResult = getOldPhoneNumberQuery.executeQuery();
-
-            String oldPhoneNumber = "";
-            if (oldPhoneNumberResult.next()) {
-                oldPhoneNumber = oldPhoneNumberResult.getString("phoneNumber");
-            }
-
-            // 전화번호가 변경된 경우에만 중복 확인 수행
-            if (!phonenumberValue.equals(oldPhoneNumber)) {
-                // 전화번호 중복 확인
-                String checkPhoneNumberSql = "SELECT * FROM user WHERE phoneNumber=?";
-                PreparedStatement checkPhoneNumberQuery = conn.prepareStatement(checkPhoneNumberSql);
-                checkPhoneNumberQuery.setString(1, phonenumberValue);
-                ResultSet phoneNumberResult = checkPhoneNumberQuery.executeQuery();
-
-                // 전화번호가 이미 사용 중인 경우
-                if (phoneNumberResult.next()) {
-                    
-                    out.println("<script>alert('사용 불가능한 전화번호입니다.');</script>");
-                    response.sendRedirect('../page/modifyProfile.jsp');    // 실패 시에 다시 modifyProfile.jsp로 이동하도록 설정 
-                }
-                
-                // 전화번호가 변경되었고, 중복이 아닌 경우에만 수정
-                String updateUserSql = "UPDATE user SET password=?, name=?, phoneNumber=? WHERE id=?";
-                PreparedStatement updateUserQuery = conn.prepareStatement(updateUserSql);
-
-                updateUserQuery.setString(1, pwValue);
-                updateUserQuery.setString(2, nameValue);
-                updateUserQuery.setString(3, phonenumberValue);
-                updateUserQuery.setString(4, idValue);
-                updateUserQuery.executeUpdate();
-                response.sendRedirect('../page/viewProfile.jsp'); // 정보 수정 후 viewProfile.jsp로 이동하도록 설정
-                }
-        
-            // 전화번호가 변경되지 않은 경우에 나머지 정보들만 수정
-            String updateUserSql = "UPDATE user SET password=?, name=? WHERE id=?";
+            // sql 준비 및 전송
+            String updateUserSql = "UPDATE user SET password=?, name=?, phoneNumber=? WHERE id=?";
             PreparedStatement updateUserQuery = conn.prepareStatement(updateUserSql);
+
             updateUserQuery.setString(1, pwValue);
             updateUserQuery.setString(2, nameValue);
-            updateUserQuery.setString(3, idValue);
+            updateUserQuery.setString(3, phonenumberValue);
+            updateUserQuery.setString(4, idValue);
             updateUserQuery.executeUpdate();
-            response.sendRedirect('../page/viewProfile.jsp'); // 정보 수정 후 viewProfile.jsp로 이동하도록 설정
-        
+            out.println("<script>location.href='../page/viewProfile.jsp';</script>"); // 정보 수정 후 viewProfile.jsp로 이동하도록 설정  
     } catch (Exception e) {
             out.println("<script>alert('" + e.getMessage() + "');</script>");
-            response.sendRedirect('../page/modifyProfile.jsp');    // 실패 시에 다시 modifyProfile.jsp로 이동하도록 설정 
+            out.println("<script>location.href='../page/modifyProfile.jsp';</script>"); // 실패 시에 다시 modifyProfile.jsp로 이동하도록 설정
     }
 %>
