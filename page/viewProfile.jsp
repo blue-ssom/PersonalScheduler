@@ -95,19 +95,26 @@
                 <button class="update" type="submit">수정하기</button>
             </form>
 
-            <form action="../page/withdraw.jsp" method="post">
-                <button class="delete" type="submit">탈퇴하기</button>
-            </form>
+            <button class="delete" type="button" onclick="confirmWithdrawal()">탈퇴하기</button>
         </div>
         
         <button class="main" type="button" onclick="returnToMainEvent()">메인으로</button>
     </div>
 
     <script>
+
+        function confirmWithdrawal() {
+            var confirmed = confirm("정말 회원 탈퇴를 진행하시겠습니까?");
+            if (confirmed) {
+                location.href = "../action/withdrawAction.jsp";
+            }
+        }
+
         function returnToMainEvent() {
         // 홈 버튼 누르면
         window.location.href = "main.jsp";
         }
     </script>
+
 </body>
 </html>

@@ -26,7 +26,7 @@
 
     if (idValue == null) {
         // 세션이 없으면 로그인 페이지로 리디렉션
-        response.sendRedirect("../page/index.jsp");
+        out.println("<script>location.href='../page/index.jsp';</script>");
     }
 %>
     <script>
@@ -85,7 +85,8 @@
             updateUserQuery.setString(3, phonenumberValue);
             updateUserQuery.setString(4, idValue);
             updateUserQuery.executeUpdate();
-            out.println("<script>location.href='../page/viewProfile.jsp';</script>"); // 정보 수정 후 viewProfile.jsp로 이동하도록 설정  
+            out.println("<script>location.href='../page/viewProfile.jsp';</script>"); // 정보 수정 후 viewProfile.jsp로 이동하도록 설정 
+             
     } catch (Exception e) {
             out.println("<script>alert('" + e.getMessage() + "');</script>");
             out.println("<script>location.href='../page/modifyProfile.jsp';</script>"); // 실패 시에 다시 modifyProfile.jsp로 이동하도록 설정
